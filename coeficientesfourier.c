@@ -7,7 +7,7 @@ FILE *op;
 main(int argc, char **argv)
 {
 
-	double an, bn, anbn, fx, *y, *xj, n, x, somas=0, somac=0, dx;
+	double *an, *bn, *anbn, fx, *y, *xj, n, x, somas=0, somac=0, dx;
 	int i=0, k, j;
 	
 	op = fopen(argv[1], "r");
@@ -22,8 +22,15 @@ main(int argc, char **argv)
 	xj=realloc(xj, n*sizeof(*xj));
 	
 
-	op = fopen(argv[2], "w");
+	
 	//Calculo dos coeficientes 
+	
+	an=malloc(n*sizeof(double));
+	bn=malloc(n*sizeof(double));
+	anbn=malloc(n*sizeof(double));
+	
+	
+	op = fopen(argv[2], "w");
 	for(k=0; k<n; k++)
 	{
 		for(j=0; j<n-1; j++)
@@ -32,10 +39,10 @@ main(int argc, char **argv)
 			somas += y[j]*sin(k*xj[j]);
 		}
 		
-		an = (1/n)*somac;
-		bn = (1/n)*somas;
-		anbn = pow(an,2) + pow(bn,2);
-		fprintf(op, "%lf\t%lf\t%lf\n", an, bn, anbn);
+		an[k] = (1/n)*somac;
+		bn[k] = (1/n)*somas;
+		anbn[k] = pow(an[k],2) + pow(bn[k],2);
+		fprintf(op, "%lf\t%lf\t%lf\n", an[k], bn[k], anbn[k]);
 	}
 	
 	fclose(op);
